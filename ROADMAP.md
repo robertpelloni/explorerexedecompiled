@@ -19,6 +19,15 @@
 ## Phase 5: High Fidelity Restructuring (AST)
 - [x] Utilize `libclang` to parse AST and map backward jumping GOTO statements (`flatten_cfg.py`, `synthesize_ast_blocks.py`).
 
-## Phase 6: Orchestration
+## Phase 6: Orchestration & Frontend UI
 - [x] Implement the global Git Sync executive handler (`sync.sh`).
 - [x] Implement master `run_all.sh` handler for pipeline Phases 1-6.
+- [x] Consolidate master dashboard UI (`test_frontend.html`) with System Tray Controller and daemon process management.
+
+## Phase 7-12: Intelligence, Security & Extensions
+- [x] Rust FFI Transpilation (`pipeline_extensions.py` / `transpile_to_rust.py`).
+- [x] Kiosk Custom Shell Synthesis (`pipeline_extensions.py` / `generate_custom_shell.py`).
+- [x] Modular Plugin Architecture Builder (`pipeline_extensions.py` / `generate_plugin_architecture.py`).
+- [x] AST Control Flow Graph Export (`pipeline_extensions.py` / `generate_ast_graph.py`).
+- [x] Static Vulnerability Scanner (`pipeline_extensions.py` / `generate_vulnerability_report.py`).
+- [x] AI Function Summarizer & Docstring Generator (`pipeline_extensions.py` / `generate_ai_summary.py`).

@@ -1,11 +1,24 @@
 #!/usr/bin/env python3
 import os
+import shutil
 import subprocess
 import sys
+
+def get_compiler():
+    compilers = ['x86_64-w64-mingw32-gcc', 'gcc', 'clang', 'cc']
+    for c in compilers:
+        if shutil.which(c):
+            return c
+    return None
 
 def main():
     print("=== EXPLORER.EXE INGESTION SIMULATOR ===")
     print("Simulating human maintainer providing the proprietary binary...")
+
+    compiler = get_compiler()
+    if not compiler:
+        print("ERROR: No suitable C compiler found in PATH.")
+        return 1
 
     input_dir = "input"
     target_exe = os.path.join(input_dir, "explorer.exe")
@@ -15,10 +28,10 @@ def main():
 
     # Synthesize the placeholder PE
     with open(dummy_c, "w") as f:
-        f.write("int main() { return 0; }")
+        f.write("int main() { return 0; }\n")
 
-    print(f"Compiling minimal placeholder PE to {target_exe}...")
-    compile_cmd = ["x86_64-w64-mingw32-gcc", dummy_c, "-o", target_exe]
+    print(f"Compiling minimal placeholder binary using {compiler} to {target_exe}...")
+    compile_cmd = [compiler, dummy_c, "-o", target_exe]
 
     try:
         subprocess.run(compile_cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)

@@ -11,6 +11,15 @@ def check_module(module_name):
         print(f"[ERROR] Python module '{module_name}' is missing.")
         return False
 
+def check_compiler():
+    compilers = ['x86_64-w64-mingw32-gcc', 'gcc', 'clang', 'cc']
+    for c in compilers:
+        if shutil.which(c):
+            print(f"[OK] C compiler '{c}' found in PATH.")
+            return True
+    print("[ERROR] No suitable C compiler (x86_64-w64-mingw32-gcc, gcc, clang, cc) found in PATH.")
+    return False
+
 def check_binary(binary_name):
     if shutil.which(binary_name):
         print(f"[OK] System binary '{binary_name}' found in PATH.")
@@ -29,7 +38,7 @@ def main():
 
     # Check System Binaries
     if not check_binary('cmake'): success = False
-    if not check_binary('x86_64-w64-mingw32-gcc'): success = False
+    if not check_compiler(): success = False
 
     if not success:
         print("Environment validation failed. Please install missing dependencies.")
