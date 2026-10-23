@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [1.2.33] - Phase 3 C Refinement & Header Synthesis Enhancements
+- Enhanced `scripts/refine_c.py` to perform macro cleanup, Ghidra primitive type normalization (`undefined4` -> `uint32_t`, `undefined8` -> `uint64_t`), and automatic stdint header injection.
+- Enhanced `scripts/segment_c.py` and `scripts/synthesize_headers.py` to parse function declarations and emit modular C++ source files (`src/module_0.cpp`) and header prototypes (`include/module_0.h`).
+- Added in-depth architectural comments across Phase 3 scripts detailing why, structural side effects, discovered optimizations, and attempted alternatives per Section 5 instructions.
+- Expanded `scripts/test_pipeline_mocks.py` unit test coverage to 15 passing tests.
+
 ## [1.2.32] - UI Redesign, System Tray Integration & Script Reorganization
 - Redesigned `test_frontend.html` into a consolidated single-page dashboard categorized by high value (Core Decompilation Engine, Intelligence & Security Diagnostics, Advanced Architecture Generators).
 - Added an interactive System Tray Icon widget and controller to `test_frontend.html` with functional daemon start, pause, clear logs, and server quit capabilities.

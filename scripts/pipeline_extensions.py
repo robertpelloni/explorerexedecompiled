@@ -133,6 +133,6 @@ if __name__ == "__main__":
             sys.exit(run_phase_10_ast_graph())
         elif "vuln" in cmd or "11" in cmd:
             sys.exit(run_phase_11_vulnerability_scan())
-        elif "summary" in cmd or "ai" or "12" in cmd:
+        elif "summary" in cmd or "ai" in cmd or "12" in cmd:
             sys.exit(run_phase_12_ai_summary())
     print("Pipeline Extensions Module initialized.")
