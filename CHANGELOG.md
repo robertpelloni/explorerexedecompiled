@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## [1.2.35] - Pipeline Extension Artifact Synthesis & Test Hardening
+- Enhanced `scripts/pipeline_extensions.py` to synthesize tangible artifacts across experimental phases 7 through 12:
+  - Phase 7: Generates Rust FFI bindings into `src/module_0.rs`.
+  - Phase 8: Generates lightweight Kiosk Shell C++ source into `src/kiosk_shell.cpp`.
+  - Phase 9: Generates modular Shell Plugin headers into `include/shell_plugin.h`.
+  - Phase 10: Generates GraphViz AST control flow `.dot` files into `output/ast_graph.dot`.
+  - Phase 11: Generates automated vulnerability static analysis reports into `output/vulnerability_report.json`.
+  - Phase 12: Generates AI-annotated function documentation into `src/annotated_module_0.cpp`.
+- Hardened unit tests in `scripts/test_pipeline_mocks.py` to assert filesystem creation, syntactic validity, and cleanup of all synthesized extension artifacts.
+- Bumped centralized version string to `1.2.35`.
+
+## [1.2.34] - Pipeline Consolidation, UI Refactoring & System Tray Integration
+- Integrated remote feature branch enhancements including Phase 3 C pseudocode refinement (`refine_c.py`), segmentation (`segment_c.py`), and C++ header synthesis (`synthesize_headers.py`, `include/module_0.h`).
+- Consolidated experimental extension phases 7 through 12 into a modular framework in `scripts/pipeline_extensions.py`, archiving legacy duplicates nondestructively in `scripts/archive/`.
+- Overhauled `test_frontend.html` into a unified master single-page dashboard featuring high-contrast layout, category grids (Core Pipeline, Security/AST Diagnostics, Advanced Generators), comprehensive tooltip guidance, live telemetry log viewer, and a System Tray controller with daemon lifecycle controls.
+- Hardened `test_mock_compilation.sh` and `run_all.sh` to ensure MinGW-w64 CMake compilation succeeds seamlessly.
+- Expanded and verified unit test suites with 100% pass rate (18 tests).
+
+## [1.2.33] - Phase 3 Pseudocode Refinement & Header Synthesis
+- Upgraded `scripts/refine_c.py`, `scripts/segment_c.py`, and `scripts/synthesize_headers.py` to clean up Ghidra internal macros, primitive types (`undefined4`, `undefined8`), and synthesize C++ header prototypes (`include/module_0.h`) with `#ifndef` include guards and `extern "C"` blocks.
+
 ## [1.2.8] - Resynchronization Execution
 - Triggered automated `sync.sh` resolution to pull upstream changes and manage stash workflows per updated protocols. No compilation action taken due to missing source files.
 
