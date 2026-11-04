@@ -14,8 +14,9 @@ else
         echo "Only mock testing files exist. Aborting compilation."
     else
         echo "Files found. Proceeding with compilation..."
-        cd build
-        make clean
+        mkdir -p build && cd build
+        cmake .. -DCMAKE_TOOLCHAIN_FILE=../CMakeToolchain-MinGW.cmake
+        make clean || true
         make
         echo "Compilation Successful."
     fi

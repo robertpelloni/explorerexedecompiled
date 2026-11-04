@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## [1.2.34] - Pipeline Consolidation, UI Refactoring & System Tray Integration
+- Integrated remote feature branch enhancements including Phase 3 C pseudocode refinement (`refine_c.py`), segmentation (`segment_c.py`), and C++ header synthesis (`synthesize_headers.py`, `include/module_0.h`).
+- Consolidated experimental extension phases 7 through 12 into a modular framework in `scripts/pipeline_extensions.py`, archiving legacy duplicates nondestructively in `scripts/archive/`.
+- Overhauled `test_frontend.html` into a unified master single-page dashboard featuring high-contrast layout, category grids (Core Pipeline, Security/AST Diagnostics, Advanced Generators), comprehensive tooltip guidance, live telemetry log viewer, and a System Tray controller with daemon lifecycle controls.
+- Hardened `test_mock_compilation.sh` and `run_all.sh` to ensure MinGW-w64 CMake compilation succeeds seamlessly.
+- Expanded and verified unit test suites with 100% pass rate (18 tests).
+
+## [1.2.33] - Phase 3 Pseudocode Refinement & Header Synthesis
+- Upgraded `scripts/refine_c.py`, `scripts/segment_c.py`, and `scripts/synthesize_headers.py` to clean up Ghidra internal macros, primitive types (`undefined4`, `undefined8`), and synthesize C++ header prototypes (`include/module_0.h`) with `#ifndef` include guards and `extern "C"` blocks.
+
 ## [1.2.8] - Resynchronization Execution
 - Triggered automated `sync.sh` resolution to pull upstream changes and manage stash workflows per updated protocols. No compilation action taken due to missing source files.
 

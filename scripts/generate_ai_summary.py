@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
 import sys
+from pipeline_extensions import run_phase_12_ai_summary
 
 def main():
-    print("Generating AI Code Summaries...")
-    print("Mock: Initializing local LLM context window...")
-    print("Mock: Analyzing decompiled function semantics...")
-    print("Mock: Injected human-readable docstrings into src/ output.")
-    print("Mock: Successfully completed AI summarization. (simulated)")
-    return 0
+    return run_phase_12_ai_summary()
 
 if __name__ == "__main__":
     sys.exit(main())

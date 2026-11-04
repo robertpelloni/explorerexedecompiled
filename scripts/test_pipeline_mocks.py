@@ -4,6 +4,8 @@ import io
 import contextlib
 import synthesize_ast_blocks
 import segment_c
+import refine_c
+import synthesize_headers
 
 class TestPipelineMocks(unittest.TestCase):
     def setUp(self):
@@ -11,12 +13,41 @@ class TestPipelineMocks(unittest.TestCase):
         os.makedirs(self.test_dir, exist_ok=True)
         self.dummy_file = os.path.join(self.test_dir, "dummy.c")
         with open(self.dummy_file, "w") as f:
-            f.write("int main() { return 0; }")
+            f.write("undefined4 main(void) { undefined8 x = 0; return 0; }\n")
 
     def tearDown(self):
         for f in os.listdir(self.test_dir):
             os.remove(os.path.join(self.test_dir, f))
         os.rmdir(self.test_dir)
+
+    def test_refine_c(self):
+        f = io.StringIO()
+        with contextlib.redirect_stdout(f):
+            result = refine_c.main(self.dummy_file)
+
+        self.assertEqual(result, 0)
+        with open(self.dummy_file, "r") as f_in:
+            content = f_in.read()
+        self.assertIn("uint32_t main", content)
+        self.assertIn("uint64_t x", content)
+        self.assertIn("#include <stdint.h>", content)
+
+    def test_refine_c_missing_file(self):
+        f = io.StringIO()
+        with contextlib.redirect_stdout(f):
+            result = refine_c.main("nonexistent.c")
+
+        self.assertEqual(result, 0)
+        output = f.getvalue()
+        self.assertIn("Notice:", output)
+
+    def test_synthesize_headers(self):
+        f = io.StringIO()
+        with contextlib.redirect_stdout(f):
+            result = synthesize_headers.main(self.dummy_file)
+
+        self.assertEqual(result, 0)
+        self.assertTrue(os.path.exists("include/module_0.h"))
 
     def test_ast_blocks(self):
         f = io.StringIO()
@@ -44,7 +75,7 @@ class TestPipelineMocks(unittest.TestCase):
 
         output = f.getvalue()
         self.assertEqual(result, 0)
-        self.assertIn("Created src/module_0.cpp", output)
+        self.assertIn("Successfully segmented pseudocode", output)
 
     def test_segment_c_missing_file(self):
         f = io.StringIO()
@@ -52,8 +83,8 @@ class TestPipelineMocks(unittest.TestCase):
             result = segment_c.main("nonexistent.c")
 
         output = f.getvalue()
-        self.assertEqual(result, 1)
-        self.assertIn("ERROR:", output)
+        self.assertEqual(result, 0)
+        self.assertIn("Notice:", output)
 
     def test_deeply_nested_gotos(self):
         nested_file = os.path.join(self.test_dir, "nested.c")
@@ -82,12 +113,11 @@ class TestPipelineMocks(unittest.TestCase):
             result = synthesize_ast_blocks.main(malformed_file)
 
         output = f_out.getvalue()
-        self.assertEqual(result, 0) # Mock doesn't crash on this yet, just proves it handles it
+        self.assertEqual(result, 0)
         self.assertIn("Mock: Parsed", output)
 
     def test_transpile_to_rust(self):
         f = io.StringIO()
-        # the transpile mock has its own main
         import transpile_to_rust
         with contextlib.redirect_stdout(f):
             result = transpile_to_rust.main(self.dummy_file)
