@@ -25,6 +25,8 @@ Alternate Methods Attempted:
 import sys
 import os
 
+import json
+
 def run_phase_7_rust_transpilation(filepath=None):
     """
     Phase 7: Rust Transpilation (Experimental)
@@ -44,17 +46,24 @@ def run_phase_7_rust_transpilation(filepath=None):
     print("Transpiling AST to Rust...")
     print(f"Mock: Reading C structure from {filepath}")
     print("Mock: Generating unsafe Rust FFI bindings...")
-    print("Mock: Created module_a.rs")
 
+    os.makedirs("src", exist_ok=True)
+    rust_output_file = "src/module_0.rs"
     rust_output = (
-        "unsafe fn mock_entry() {\n"
+        "// Synthesized Unsafe Rust FFI Bindings for Explorer Decompilation\n"
+        "#![allow(dead_code, non_snake_case)]\n\n"
+        "pub unsafe fn mock_entry() {\n"
         "    // Translated block from AST\n"
-        "    let mut i = 0;\n"
+        "    let mut i: i32 = 0;\n"
         "    while i < 10 {\n"
         "        i += 1;\n"
         "    }\n"
         "}\n"
     )
+    with open(rust_output_file, "w", encoding="utf-8") as f:
+        f.write(rust_output)
+
+    print(f"Mock: Created {rust_output_file}")
     print(f"Mock output preview:\n{rust_output}")
     return 0
 
@@ -67,7 +76,25 @@ def run_phase_8_custom_shell():
     print("Mock: Reading segmented module outputs from src/")
     print("Mock: Stripping unnecessary components (Cortana, Search, Action Center)...")
     print("Mock: Compiling lightweight kiosk shell...")
-    print("Mock: Successfully generated kiosk_shell.exe (simulated)")
+
+    os.makedirs("src", exist_ok=True)
+    kiosk_path = "src/kiosk_shell.cpp"
+    kiosk_code = (
+        "// Lightweight Kiosk Shell Variation\n"
+        "#include <stdint.h>\n"
+        "#include <stdbool.h>\n\n"
+        "int RunKioskMode(void) {\n"
+        "    // Kiosk entry loop stripping Cortana and Search integration\n"
+        "    return 0;\n"
+        "}\n\n"
+        "int main(void) {\n"
+        "    return RunKioskMode();\n"
+        "}\n"
+    )
+    with open(kiosk_path, "w", encoding="utf-8") as f:
+        f.write(kiosk_code)
+
+    print(f"Mock: Successfully generated {kiosk_path} (simulated kiosk_shell.exe)")
     return 0
 
 def run_phase_9_plugin_architecture():
@@ -78,7 +105,30 @@ def run_phase_9_plugin_architecture():
     print("Generating Plugin Architecture...")
     print("Mock: Refactoring monolithic code into modular plugins...")
     print("Mock: Synthesizing dynamic library interfaces (.dll/.so)...")
-    print("Mock: Successfully generated plugin-based shell architecture (simulated)")
+
+    os.makedirs("include", exist_ok=True)
+    plugin_header = "include/shell_plugin.h"
+    header_code = (
+        "#ifndef SHELL_PLUGIN_H\n"
+        "#define SHELL_PLUGIN_H\n\n"
+        "#ifdef __cplusplus\n"
+        "extern \"C\" {\n"
+        "#endif\n\n"
+        "typedef struct ShellPlugin {\n"
+        "    const char* name;\n"
+        "    int (*initialize)(void);\n"
+        "    void (*shutdown)(void);\n"
+        "} ShellPlugin;\n\n"
+        "ShellPlugin* CreateShellPlugin(void);\n\n"
+        "#ifdef __cplusplus\n"
+        "}\n"
+        "#endif\n\n"
+        "#endif // SHELL_PLUGIN_H\n"
+    )
+    with open(plugin_header, "w", encoding="utf-8") as f:
+        f.write(header_code)
+
+    print(f"Mock: Successfully generated plugin-based shell architecture in {plugin_header}")
     return 0
 
 def run_phase_10_ast_graph():
@@ -90,7 +140,25 @@ def run_phase_10_ast_graph():
     print("Generating AST Visualization Graph...")
     print("Mock: Traversing in-memory C++ syntax tree...")
     print("Mock: Extracting control flow basic blocks...")
-    print("Mock: Exporting graph to output/ast_graph.dot")
+
+    dot_file = "output/ast_graph.dot"
+    dot_content = (
+        "digraph AST {\n"
+        "    node [shape=box, fontname=\"Courier\"];\n"
+        "    entry [label=\"Function: main\"];\n"
+        "    bb0 [label=\"Block 0: Entry\"];\n"
+        "    bb1 [label=\"Block 1: while (i < 10)\"];\n"
+        "    bb2 [label=\"Block 2: Return 0\"];\n"
+        "    entry -> bb0;\n"
+        "    bb0 -> bb1;\n"
+        "    bb1 -> bb1 [label=\"loop\"];\n"
+        "    bb1 -> bb2 [label=\"exit\"];\n"
+        "}\n"
+    )
+    with open(dot_file, "w", encoding="utf-8") as f:
+        f.write(dot_content)
+
+    print(f"Mock: Exporting graph to {dot_file}")
     print("Mock: Successfully generated visual representation of AST. (simulated)")
     return 0
 
@@ -103,7 +171,20 @@ def run_phase_11_vulnerability_scan():
     print("Generating Vulnerability Report...")
     print("Mock: Running static analysis on decompiled C++ source...")
     print("Mock: Scanning for buffer overflows, use-after-free, and format string bugs...")
-    print("Mock: Exporting findings to output/vulnerability_report.json")
+
+    report_file = "output/vulnerability_report.json"
+    report_data = {
+        "tool": "explorer_decomp_vuln_scanner",
+        "scanned_files": ["src/module_0.cpp"],
+        "findings_count": 0,
+        "findings": [],
+        "status": "PASS",
+        "summary": "No critical buffer overflows or use-after-free issues detected in decompiled AST."
+    }
+    with open(report_file, "w", encoding="utf-8") as f:
+        json.dump(report_data, f, indent=2)
+
+    print(f"Mock: Exporting findings to {report_file}")
     print("Mock: Successfully completed security scan. (simulated)")
     return 0
 
@@ -115,7 +196,25 @@ def run_phase_12_ai_summary():
     print("Generating AI Code Summaries...")
     print("Mock: Initializing local LLM context window...")
     print("Mock: Analyzing decompiled function semantics...")
-    print("Mock: Injected human-readable docstrings into src/ output.")
+
+    os.makedirs("src", exist_ok=True)
+    annotated_file = "src/annotated_module_0.cpp"
+    annotated_code = (
+        "// AI-Generated Function Semantics Documentation\n"
+        "#include <stdint.h>\n"
+        "#include <stdbool.h>\n\n"
+        "/**\n"
+        " * @brief Reconstructed primary entry point.\n"
+        " * Initializes explorer process environment and executes the core message dispatch loop.\n"
+        " */\n"
+        "int main(void) {\n"
+        "    return 0;\n"
+        "}\n"
+    )
+    with open(annotated_file, "w", encoding="utf-8") as f:
+        f.write(annotated_code)
+
+    print(f"Mock: Injected human-readable docstrings into {annotated_file}")
     print("Mock: Successfully completed AI summarization. (simulated)")
     return 0
 

@@ -126,6 +126,12 @@ class TestPipelineMocks(unittest.TestCase):
         self.assertEqual(result, 0)
         self.assertIn("unsafe fn mock_entry", output)
         self.assertIn("Transpiling AST to Rust", output)
+        self.assertTrue(os.path.exists("src/module_0.rs"))
+        with open("src/module_0.rs", "r") as r_in:
+            r_content = r_in.read()
+        self.assertIn("pub unsafe fn mock_entry", r_content)
+        if os.path.exists("src/module_0.rs"):
+            os.remove("src/module_0.rs")
 
     def test_generate_custom_shell(self):
         f = io.StringIO()
@@ -137,6 +143,12 @@ class TestPipelineMocks(unittest.TestCase):
         self.assertEqual(result, 0)
         self.assertIn("Generating Custom Shell Variations", output)
         self.assertIn("kiosk_shell.exe", output)
+        self.assertTrue(os.path.exists("src/kiosk_shell.cpp"))
+        with open("src/kiosk_shell.cpp", "r") as k_in:
+            k_content = k_in.read()
+        self.assertIn("RunKioskMode", k_content)
+        if os.path.exists("src/kiosk_shell.cpp"):
+            os.remove("src/kiosk_shell.cpp")
 
     def test_generate_plugin_architecture(self):
         f = io.StringIO()
@@ -148,6 +160,12 @@ class TestPipelineMocks(unittest.TestCase):
         self.assertEqual(result, 0)
         self.assertIn("Generating Plugin Architecture", output)
         self.assertIn("plugin-based shell architecture", output)
+        self.assertTrue(os.path.exists("include/shell_plugin.h"))
+        with open("include/shell_plugin.h", "r") as p_in:
+            p_content = p_in.read()
+        self.assertIn("ShellPlugin", p_content)
+        if os.path.exists("include/shell_plugin.h"):
+            os.remove("include/shell_plugin.h")
 
     def test_generate_ast_graph(self):
         f = io.StringIO()
@@ -159,8 +177,15 @@ class TestPipelineMocks(unittest.TestCase):
         self.assertEqual(result, 0)
         self.assertIn("Generating AST Visualization Graph", output)
         self.assertIn("ast_graph.dot", output)
+        self.assertTrue(os.path.exists("output/ast_graph.dot"))
+        with open("output/ast_graph.dot", "r") as d_in:
+            d_content = d_in.read()
+        self.assertIn("digraph AST", d_content)
+        if os.path.exists("output/ast_graph.dot"):
+            os.remove("output/ast_graph.dot")
 
     def test_generate_vulnerability_report(self):
+        import json
         f = io.StringIO()
         import generate_vulnerability_report
         with contextlib.redirect_stdout(f):
@@ -170,6 +195,12 @@ class TestPipelineMocks(unittest.TestCase):
         self.assertEqual(result, 0)
         self.assertIn("Generating Vulnerability Report", output)
         self.assertIn("vulnerability_report.json", output)
+        self.assertTrue(os.path.exists("output/vulnerability_report.json"))
+        with open("output/vulnerability_report.json", "r") as v_in:
+            report = json.load(v_in)
+        self.assertEqual(report["status"], "PASS")
+        if os.path.exists("output/vulnerability_report.json"):
+            os.remove("output/vulnerability_report.json")
 
     def test_generate_ai_summary(self):
         f = io.StringIO()
@@ -181,6 +212,12 @@ class TestPipelineMocks(unittest.TestCase):
         self.assertEqual(result, 0)
         self.assertIn("Generating AI Code Summaries", output)
         self.assertIn("Injected human-readable docstrings", output)
+        self.assertTrue(os.path.exists("src/annotated_module_0.cpp"))
+        with open("src/annotated_module_0.cpp", "r") as a_in:
+            a_content = a_in.read()
+        self.assertIn("@brief Reconstructed primary entry point", a_content)
+        if os.path.exists("src/annotated_module_0.cpp"):
+            os.remove("src/annotated_module_0.cpp")
 
 if __name__ == "__main__":
     unittest.main()

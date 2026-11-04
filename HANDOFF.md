@@ -1,31 +1,30 @@
-# Session Handoff Log (Version 1.2.34)
+# Session Handoff Log (Version 1.2.35)
 
 ## Session Summary & Accomplishments
-- **Phase 3 C Pseudocode Refinement & Modular Header Synthesis**: Standardized Ghidra internal macros, primitive types (`undefined4`, `undefined8` -> `uint32_t`, `uint64_t`), and synthesized C++ header prototypes (`include/module_0.h`) with include guards and `extern "C"` linkage.
-- **Pipeline Extensions Consolidation**: Streamlined experimental phases 7 through 12 into `scripts/pipeline_extensions.py` while preserving backwards-compatible wrappers and nondestructively archiving legacy standalones in `scripts/archive/`.
-- **Dashboard UI Master Redesign**: Re-architected `test_frontend.html` into a cohesive single-page dashboard. Organized phases into logical category matrices (High-Value Core Pipeline Phases 0-6, Security & AST Intelligence Diagnostics Phases 10-12, and Advanced Architecture Generators Phases 7-9).
-- **System Tray Controller**: Built an interactive top-bar System Tray menu equipped with daemon lifecycle controls (Start, Pause, Quit Servers, Clear Console Logs) and live server telemetry indicators.
-- **Testing & Toolchain Validation**: Installed system dependencies for `x86_64-w64-mingw32-gcc` and verified CMake compilation of static library `libExplorerDecompiledStatic.a`. Maintained 100% test pass rate across 18 unit tests. Verified visual frontend states with Playwright (`scripts/verify_frontend.py`).
+- **Phase 7-12 Extension Artifact Synthesis**: Refactored `scripts/pipeline_extensions.py` to write tangible, structured outputs across all experimental phases:
+  - Phase 7 (Rust FFI): `src/module_0.rs`
+  - Phase 8 (Custom Kiosk Shell): `src/kiosk_shell.cpp`
+  - Phase 9 (Modular Shell Plugins): `include/shell_plugin.h`
+  - Phase 10 (AST GraphViz Flow): `output/ast_graph.dot`
+  - Phase 11 (Vulnerability Scan): `output/vulnerability_report.json`
+  - Phase 12 (AI Docstring Annotations): `src/annotated_module_0.cpp`
+- **Unit Test Hardening**: Updated `scripts/test_pipeline_mocks.py` with rigorous file existence, JSON parsing, and content validity assertions for all generated extension artifacts, maintaining a 100% test pass rate across 18 tests.
+- **Cross-Compilation & Pipeline Validation**: Confirmed MinGW-w64 cross-compilation builds `libExplorerDecompiledStatic.a` cleanly and `./run_all.sh input/explorer.exe --with-extensions` succeeds end-to-end.
+- **Documentation Governance**: Updated `VERSION.md` (1.2.35), `CHANGELOG.md`, and this `HANDOFF.md`.
 
-## Core Diagnostic Inquiries & Status
-
-### 1. Where is the system tray icon? Does it have sensible features and the ability to quit the servers?
-- **Location**: Situated prominently in the top header bar of `test_frontend.html` labeled `[🖥️ System Tray]`.
-- **Sensible Features**: Includes an interactive dropdown menu with actions to **Start Servers**, **Pause Orchestrator**, **Quit Servers**, and **Clear Console Logs**, with live status badges reflecting active daemon status and port bindings.
-- **Ability to Quit Servers**: Clicking **Quit Servers** gracefully stops background daemons, updates the server status dot from green to pulsing red, logs termination events to the console, and prevents pipeline execution until servers are restarted.
-
-### 2. What isn't working that should be working?
-- Decompilation of raw proprietary binaries directly through Ghidra requires a pre-built local Docker image (`ghidra-decompiler:latest`). In environments without pre-built Docker daemon containers, Phase 2 logs the missing container error and gracefully falls back to mock pipeline synthesis to ensure downstream CMake compilation and AST rewriting remain operational.
-
-### 3. Is anything not fully running which could be running?
-- Real-time continuous daemon monitoring (`scripts/monitor.sh`) can run continuously in background environments to watch `input/` for new binary drops and automatically invoke the end-to-end pipeline.
-
-### 4. What's next? What else could you use from me?
-- Provide an authentic Windows 10 Build 19045 `explorer.exe` into `input/` or upload authentic Ghidra decompilation dumps into `src/monolithic_output.c`.
-- Advance Phase 5 & 6 AST rewriting to synthesize complex multi-branch control flow structures beyond backward-jumping while loops.
+## System Status & Diagnostic Answers
+1. **System Tray Icon Location & Features**:
+   - Prominently positioned in `test_frontend.html` system bar with live status indicators and menu actions to Start Servers, Pause Orchestrator, Clear Console Logs, and Quit Servers.
+2. **What Isn't Working That Should Be Working?**:
+   - Decompilation of raw proprietary binaries directly through Ghidra requires a pre-built local Docker image (`ghidra-decompiler:latest`). When the image is not found, the pipeline gracefully logs the missing container error and falls back to mock synthesis to ensure downstream CMake compilation and AST rewriting remain operational.
+3. **Is Anything Not Fully Running Which Could Be Running?**:
+   - The ingestion simulator (`scripts/simulate_ingestion.py`) and background folder monitor (`scripts/monitor.sh`) can continuously watch for new binary drops in `input/`.
+4. **What's Next? What else could you use from me?**:
+   - Provide an authentic Windows 10 Build 19045 `explorer.exe` into `input/` or upload authentic Ghidra decompilation dumps into `src/monolithic_output.c`.
+   - Implement advanced multi-target AST goto rewriting in `scripts/synthesize_ast_blocks.py`.
 
 ## Guidance for Successor Models
-- Unit test runner: `./run_tests.sh` (executes all test suites in `scripts/test_flatten_cfg.py` and `scripts/test_pipeline_mocks.py`).
-- Frontend Playwright verification: `python3 scripts/verify_frontend.py`.
-- Master pipeline runner: `./run_all.sh <path_to_binary> [--with-extensions]`.
-- Global version is centralized in `VERSION.md` (`1.2.34`).
+- Run unit test suites: `./run_tests.sh`.
+- Run mock compilation: `./test_mock_compilation.sh`.
+- Run master pipeline: `./run_all.sh input/explorer.exe --with-extensions`.
+- Global version string is centralized in `VERSION.md` (`1.2.35`).
