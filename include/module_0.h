@@ -9,7 +9,6 @@ extern "C" {
 #endif
 
 // Synthesized function prototypes
-undefined4 main(void);
 
 #ifdef __cplusplus
 }
